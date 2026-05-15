@@ -14,6 +14,6 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 > You may need to `chmod -x <script_filename>` first to enable executability.
 
 ### Plans
-- [ ] Once more scripts get added, a CLI tool that includes all the scripts and corresponding `-h` flags should be created.
+- [ ] Once more scripts get added, a CLI tool that includes all the scripts and corresponding `-h` flags should be created and packaged.
 - [ ] Add documentation for how/when/why to use each script.
 - [ ] Add guide for contributing new scripts.
