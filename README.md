@@ -25,8 +25,7 @@ Each script has its own `-h` flag for usage information.
 | getcommit | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit <git repo url>` |
 
 ### Plans
-- [ ] Once more scripts get added, a CLI tool that includes all the scripts and corresponding `-h` flags should be created and packaged.
-- [ ] Add documentation for how/when/why to use each script.
+- [ ] Once more scripts get added, a CLI tool that includes all the scripts should be created and packaged.
 - [ ] Add guide for contributing new scripts.
 
 ### Attribution
