@@ -24,6 +24,14 @@ Each script has its own `-h` flag for usage information.
 | ldd-dnf | Finds libraries that a binary dynamically links to, and gets the name of each package that provides them. | `ldd-dnf <path/to/binary.rpm>` |
 | getcommit | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit <git repo url>` |
 
+#### Install
+
+With Terra installed, run:
+
+```sh
+dnf install terra-scripts
+```
+
 ### Plans
 - [ ] Once more scripts get added, a CLI tool that includes all the scripts should be created and packaged.
 - [ ] Add guide for contributing new scripts.
