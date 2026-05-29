@@ -32,3 +32,4 @@ Each script has its own `-h` flag for usage information.
 ### Attribution
 - `ldd-dnf`, `rpmdate`: june@fyralabs.com
 - `format-license`, `getcommit`: jonah@fyralabs.com
+- `panda`: jade@fyralabs.com
