@@ -29,8 +29,9 @@ fi
 # Remove prefix from build output
 cleaned_input=$(
     printf "%s\n" "$input" \
-    | grep '│' \
-    | sed 's/^.*│ # //'
+    | grep -E '(│|:)' \
+    | sed 's/^.*│ # //' \
+    | sed 's/:.*$//'
 )
 
 # Canonicalization helpers
