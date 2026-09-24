@@ -24,6 +24,7 @@ Each script has its own `-h` flag for usage information.
 | ldd-dnf | Finds libraries that a binary dynamically links to, and gets the name of each package that provides them. | `ldd-dnf <path/to/binary.rpm>` |
 | getcommit | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit <git repo url>` |
 | panda  | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda <anda arguments>` |
+| icedtea-fetch | Fetches [IcedTea](https://openjdk.org/projects/icedtea) archives for use in Java builds. Use `icedtea-fetch -h` to view all flags. | `icedtea-fetch <icedtea-fetch flags>` |
 
 #### Install
 
@@ -41,3 +42,4 @@ dnf install terra-scripts
 - `ldd-dnf`, `rpmdate`: june@fyralabs.com
 - `format-license`, `getcommit`: jonah@fyralabs.com
 - `panda`: jade@fyralabs.com
+- `icedtea-fetch`: roachy@fyralabs.com
