@@ -202,9 +202,14 @@ ICEDTEA_SIGNING_KEY="${GPG_KEY:-CFDA0F9B35964222}"
 
 SOURCE_DIR="${PWD}"
 
-WORKDIR="$(mktemp -d)"
-
-pushd "${WORKDIR}"
+# If used in CI, use the runner temp, otherwise make a temp directory.
+if [ ! -z "${RUNNTER_TEMP}" ]; then
+  WORKDIR="${RUNNTER_TEMP}/icedtea"
+  pushd "${RUNNTER_TEMP}"
+else
+  WORKDIR="$(mktemp -d)"
+  pushd "${WORKDIR}"
+fi
 
 if [[ ! -f "${SOURCE_DIR}/jconsole.desktop.in" ]]; then
     echo -e "\nWrong source directory or needed files are missing. Rhai mistake?"
