@@ -20,7 +20,7 @@ Each script has its own `-h` flag for usage information.
 | Name | Useage | Command |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
 | changelog | Generates info for a changelog entry based on your git config. | `changelog` |
-| format-license | Formats the build output of `%cargo_license_summary_online` and `%tauri_summary_license_online` into a proper string for the RPM `License:` tag. | `format-license "<raw license build output>"` |
+| format-license | Formats the build output of `%cargo_license_summary_online` and `%tauri_cargo_license_summary` into a proper string for the RPM `License:` tag. | `format-license "<raw license build output>"` |
 | ldd-dnf | Finds libraries that a binary dynamically links to, and gets the name of each package that provides them. | `ldd-dnf <path/to/binary.rpm>` |
 | getcommit | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit <git repo url>` |
 | panda  | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda <anda arguments>` |
