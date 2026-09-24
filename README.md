@@ -39,7 +39,7 @@ dnf install terra-scripts
 - [ ] Add guide for contributing new scripts.
 
 ### Attribution
-- `ldd-dnf`, `rpmdate`: june@fyralabs.com
+- `ldd-dnf`, `changelog`: june@fyralabs.com
 - `format-license`, `getcommit`: jonah@fyralabs.com
 - `panda`: jade@fyralabs.com
 - `icedtea-fetch`: roachy@fyralabs.com
