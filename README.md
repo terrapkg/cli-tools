@@ -1,7 +1,14 @@
 # cli-tools
 A collection of helpful scripts for contributing to Terra!
 
-### Installing Scripts
+### Installation
+
+With [Terra](https://terrapkg.com/) installed, run:
+```sh
+dnf install terra-scripts
+```
+<details>
+<summary>How to install individual scripts</summary>
 1. Download the scripts you want from `/scripts`.
 2. Move each script to `/usr/local/bin/` so they can be called as commands:
 ```sh
@@ -12,6 +19,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 > [!NOTE]
 > You can also run these scripts without moving them to `/usr/local/bin` by calling them with `./path/to/<script_filename>`. 
 > You may need to `chmod -x <script_filename>` first to enable executability.
+</details>
 
 ### How to Use
 
@@ -25,14 +33,6 @@ Each script has its own `-h` flag for usage information.
 | getcommit | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit <git repo url>` |
 | panda  | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda <anda arguments>` |
 | icedtea-fetch | Fetches [IcedTea](https://openjdk.org/projects/icedtea) archives for use in Java builds. Use `icedtea-fetch -h` to view all flags. | `icedtea-fetch <icedtea-fetch flags>` |
-
-#### Install
-
-With Terra installed, run:
-
-```sh
-dnf install terra-scripts
-```
 
 ### Plans
 - [ ] Once more scripts get added, a CLI tool that includes all the scripts should be created and packaged.
