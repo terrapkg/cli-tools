@@ -43,11 +43,11 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 
 | Name | Usage | Command |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| satm-grepdel.fish | Batch delete all packages matching a certain exact pattern from a set of repos in Subatomic repo manager. Prints a list of packages to be deleted before confirming deletion, pass `--no-dry-run` to actually perform the deletion, or `--dry-run` to explicitly run in safe mode. | `satm-grepdel.fish [--dry-run | --no-dry-run] "<pattern>"` |
-| satm-rm-stdin.sh | Deletes packages piped in via `stdin` from a single Subatomic repo. An alternative to `satm-grepdel.fish`. | `cat packages-to-delete.txt \| satm-rm-stdin.sh terra45` OR `subatomic-cli pkg list terra40 \| grep "pattern-to-delete" \| satm-rm-stdin.sh terra45` |
-| sync-branches.sh | Creates a branch sync pull request for when automatic bumps are out of sync across branches, or multiple backports are failing, by cloning `terrapkg/packages` over HTTPS, for a given release branch. | `sync-branches.sh <username> <branch> [-x]` |
-| sync-branches-ssh.sh | Same as `sync-branches.sh`, but clones and pushes over SSH instead of HTTPS. | `sync-branches-ssh.sh <username> <branch> [-x]` |
-| terra-subtree-build.sh | Builds every Anda project (package) in the current monorepo whose name matches a given pattern. Requires the `CONFIG` env var to be set. | `terra-subtree-build.sh $0 <pattern>` |
+| satm-grepdel.fish | Batch delete all packages matching a certain exact pattern from a set of repos in Subatomic repo manager. Prints a list of packages to be deleted before confirming deletion, pass `--no-dry-run` to actually perform the deletion, or `--dry-run` to explicitly run in safe mode. | `satm-grepdel [--dry-run \| --no-dry-run] "<pattern>"` |
+| satm-rm-stdin.sh | Deletes packages piped in via `stdin` from a single Subatomic repo. An alternative to `satm-grepdel.fish`. | `cat packages-to-delete.txt \| satm-rm-stdin terra45` OR `subatomic-cli pkg list terra40 \| grep "pattern-to-delete" \| satm-rm-stdin terra45` |
+| sync-branches.sh | Creates a branch sync pull request for when automatic bumps are out of sync across branches, or multiple backports are failing, by cloning `terrapkg/packages` over HTTPS, for a given release branch. | `sync-branches <username> <branch> [-x]` |
+| sync-branches-ssh.sh | Same as `sync-branches.sh`, but clones and pushes over SSH instead of HTTPS. | `sync-branches-ssh <username> <branch> [-x]` |
+| terra-subtree-build.sh | Builds every Anda project (package) in the current monorepo whose name matches a given pattern. Requires the `CONFIG` env var to be set. | `terra-subtree-build $0 <pattern>` |
 | terra_mass_rebuild.py | Prints a formatted list of every package to be pasted into the JSON build Terra workflow, for mass package rebuilds when making new branches/rebuilding frawhide. | `python3 terra_mass_rebuild.py` |
 
 ### Plans
