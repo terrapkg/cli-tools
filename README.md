@@ -1,14 +1,18 @@
 # cli-tools
-A collection of helpful scripts for contributing to Terra!
+A collection of helpful scripts for contributing to and maintaining [Terra](https://terrapkg.com/)!
 
-### Installation
+## Installation
 
-With [Terra](https://terrapkg.com/) installed, run:
 ```sh
+# First, install Terra if you haven't already
+sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+
+# Then install this package from Terra
 dnf install terra-scripts
 ```
 <details>
 <summary>How to install individual scripts</summary>
+
 1. Download the scripts you want from `/scripts`.
 2. Move each script to `/usr/local/bin/` so they can be called as commands:
 ```sh
@@ -16,12 +20,15 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 ```
 3. Call scripts by running their filename as a command. e.g. `rpmdate` or `ldd-dnf <arg>`.
 
-> [!NOTE]
+> **Note:**
 > You can also run these scripts without moving them to `/usr/local/bin` by calling them with `./path/to/<script_filename>`. 
 > You may need to `chmod -x <script_filename>` first to enable executability.
+
 </details>
 
-### How to Use
+## How to Use
+
+### Helpful Specfile Scripts
 
 Each script has its own `-h` flag for usage information.
 
@@ -33,6 +40,17 @@ Each script has its own `-h` flag for usage information.
 | getcommit | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit <git repo url>` |
 | panda  | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda <anda arguments>` |
 | icedtea-fetch | Fetches [IcedTea](https://openjdk.org/projects/icedtea) archives for use in Java builds. Use `icedtea-fetch -h` to view all flags. | `icedtea-fetch <icedtea-fetch flags>` |
+
+### Batch processing scripts
+
+| Name | Useage | Command |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| satm-grepdel.fish | Batch delete all packages matching a certain exact pattern from a set of repos in Subatomic repo manager | `satm-grepdel.fish "<pattern>"` |
+| satm-rm-stdin.sh | Deletes packages piped in via stdin from a single Subatomic repo. A simplified, "bring your own filter" alternative to `satm-grepdel.fish`. Requires `subatomic-cli`. | `cat packages.txt \| satm-rm-stdin.sh terra40` where `packages.txt` is a list of packages to delete `subatomic-cli pkg list terra40 \| grep "pattern" \| grep "pattern2" \| satm-rm-stdin.sh terra40` where the grep commands are used to filter the list of packages to delete. |
+| sync-branches.sh | Clones/updates `terrapkg/packages` over HTTPS, cleans out conflicting release metadata, and opens a sync branch + commit for a given release branch. | `sync-branches.sh <username> <branch> [-x]` |
+| sync-branches-ssh.sh | Same as `sync-branches.sh`, but clones and pushes over SSH instead of HTTPS. | `sync-branches-ssh.sh <username> <branch> [-x]` |
+| terra-subtree-build.sh | Builds every Anda project in the current monorepo whose name matches a pattern. Requires the `CONFIG` env var to be set and must be run inside an Anda monorepo. | `terra-subtree-build.sh $0 <pattern>` |
+| terra_mass_rebuild.py | idk | `python terra_mass_rebuild.py` |
 
 ### Plans
 - [ ] Once more scripts get added, a CLI tool that includes all the scripts should be created and packaged.
