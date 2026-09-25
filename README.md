@@ -13,7 +13,7 @@ dnf install terra-scripts
 <details>
 <summary>How to install individual scripts</summary>
 
-1. Download the scripts you want from `/scripts`.
+1. Download the individual scripts you want.
 2. Move each script to `/usr/local/bin/` so they can be called as commands:
 ```sh
 sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<script_filename>
