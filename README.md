@@ -41,12 +41,12 @@ Each script has its own `-h` flag for usage information.
 | panda  | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda <anda arguments>` |
 | icedtea-fetch | Fetches [IcedTea](https://openjdk.org/projects/icedtea) archives for use in Java builds. Use `icedtea-fetch -h` to view all flags. | `icedtea-fetch <icedtea-fetch flags>` |
 
-### Batch processing scripts
+### Batch Processing Scripts
 
 | Name | Useage | Command |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
 | satm-grepdel.fish | Batch delete all packages matching a certain exact pattern from a set of repos in Subatomic repo manager | `satm-grepdel.fish "<pattern>"` |
-| satm-rm-stdin.sh | Deletes packages piped in via stdin from a single Subatomic repo. A simplified, "bring your own filter" alternative to `satm-grepdel.fish`. Requires `subatomic-cli`. | `cat packages.txt \| satm-rm-stdin.sh terra40` where `packages.txt` is a list of packages to delete `subatomic-cli pkg list terra40 \| grep "pattern" \| grep "pattern2" \| satm-rm-stdin.sh terra40` where the grep commands are used to filter the list of packages to delete. |
+| satm-rm-stdin.sh | Deletes packages piped in via `stdin` from a single Subatomic repo. An alternative to `satm-grepdel.fish`. | `cat packages.txt \| satm-rm-stdin.sh terra40` where `packages.txt` is a list of packages to delete `subatomic-cli pkg list terra40 \| grep "pattern" \| grep "pattern2" \| satm-rm-stdin.sh terra40` where the grep commands are used to filter the list of packages to delete. |
 | sync-branches.sh | Clones/updates `terrapkg/packages` over HTTPS, cleans out conflicting release metadata, and opens a sync branch + commit for a given release branch. | `sync-branches.sh <username> <branch> [-x]` |
 | sync-branches-ssh.sh | Same as `sync-branches.sh`, but clones and pushes over SSH instead of HTTPS. | `sync-branches-ssh.sh <username> <branch> [-x]` |
 | terra-subtree-build.sh | Builds every Anda project in the current monorepo whose name matches a pattern. Requires the `CONFIG` env var to be set and must be run inside an Anda monorepo. | `terra-subtree-build.sh $0 <pattern>` |
@@ -55,6 +55,7 @@ Each script has its own `-h` flag for usage information.
 ### Plans
 - [ ] Once more scripts get added, a CLI tool that includes all the scripts should be created and packaged.
 - [ ] Add guide for contributing new scripts.
+- [ ] Add attribution for scripts added from the old terra-scripts repo
 
 ### Attribution
 - `ldd-dnf`, `changelog`: june@fyralabs.com
