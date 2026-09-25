@@ -23,6 +23,7 @@ if [[ ! "$pr_url" =~ github\.com/([^/]+)/([^/]+)/pull/([0-9]+) ]]; then
     echo "Error: invalid PR URL: $pr_url"
     exit 1
 fi
+
 owner="${BASH_REMATCH[1]}"
 repo="${BASH_REMATCH[2]}"
 pr="${BASH_REMATCH[3]}"
