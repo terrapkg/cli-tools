@@ -12,7 +12,7 @@ set DRY_RUN 1
 
 # Array of repos
 
-set REPOS terra38 terra39 terra40 terrarawhide
+set REPOS terra43 terra44 terra45 terrarawhide terrael10
 
 function subatomic_grep
     set -l REPO $argv[1]
