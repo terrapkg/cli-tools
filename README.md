@@ -1,5 +1,5 @@
 # cli-tools
-A collection of helpful scripts for contributing to and maintaining [Terra](https://terrapkg.com/)!
+A collection of helpful scripts for contributing to (and maintaining) [Terra](https://terrapkg.com/)!
 
 ## Installation
 
