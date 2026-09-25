@@ -47,7 +47,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 | satm-rm-stdin.sh | Deletes packages piped in via `stdin` from a single Subatomic repo. An alternative to `satm-grepdel.fish`. | `cat packages.txt \| satm-rm-stdin.sh terra40` where `packages.txt` is a list of packages to delete `subatomic-cli pkg list terra40 \| grep "pattern" \| grep "pattern2" \| satm-rm-stdin.sh terra40` where the grep commands are used to filter the list of packages to delete. |
 | sync-branches.sh | Clones/updates `terrapkg/packages` over HTTPS, cleans out conflicting release metadata, and opens a sync branch + commit for a given release branch. | `sync-branches.sh <username> <branch> [-x]` |
 | sync-branches-ssh.sh | Same as `sync-branches.sh`, but clones and pushes over SSH instead of HTTPS. | `sync-branches-ssh.sh <username> <branch> [-x]` |
-| terra-subtree-build.sh | Builds every Anda project in the current monorepo whose name matches a pattern. Requires the `CONFIG` env var to be set and must be run inside an Anda monorepo. | `terra-subtree-build.sh $0 <pattern>` |
+| terra-subtree-build.sh | Builds every Anda project (package) in the current monorepo whose name matches a given pattern. Requires the `CONFIG` env var to be set. | `terra-subtree-build.sh $0 <pattern>` |
 | terra_mass_rebuild.py | Prints a formatted list of every package to be pasted into the JSON build Terra workflow, for mass package rebuilds when making new branches/rebuilding frawhide. | `python3 terra_mass_rebuild.py` |
 
 ### Plans
