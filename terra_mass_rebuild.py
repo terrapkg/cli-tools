@@ -1,4 +1,9 @@
-import math, json, os
+import math, json, os, sys
+
+if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+    print("Prints a formatted list of every package to be pasted into the JSON build Terra workflow, for mass package rebuilds when making new branches/rebuilding frawhide.")
+    print("Usage:   python3 mass_rebuild.py [--help | -h]")
+    sys.exit(0)
 
 os.system("""
 commit=`git rev-list HEAD | tail -n 1`
