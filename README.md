@@ -48,7 +48,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 | sync-branches.sh | Clones/updates `terrapkg/packages` over HTTPS, cleans out conflicting release metadata, and opens a sync branch + commit for a given release branch. | `sync-branches.sh <username> <branch> [-x]` |
 | sync-branches-ssh.sh | Same as `sync-branches.sh`, but clones and pushes over SSH instead of HTTPS. | `sync-branches-ssh.sh <username> <branch> [-x]` |
 | terra-subtree-build.sh | Builds every Anda project in the current monorepo whose name matches a pattern. Requires the `CONFIG` env var to be set and must be run inside an Anda monorepo. | `terra-subtree-build.sh $0 <pattern>` |
-| terra_mass_rebuild.py | idk | `python terra_mass_rebuild.py` |
+| terra_mass_rebuild.py | Prints a formatted list of every package to be pasted into the JSON build Terra workflow, for mass package rebuilds when making new branches/rebuilding frawhide. | `python3 terra_mass_rebuild.py` |
 
 ### Plans
 - [ ] Once more scripts get added, a CLI tool that includes all the scripts should be created and packaged.
