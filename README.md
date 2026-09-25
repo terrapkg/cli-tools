@@ -38,6 +38,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 | getcommit.sh | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit  [--help \| -h] <git repo url>` |
 | panda.sh | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda  [--help \| -h] <anda arguments>` |
 | icedtea-fetch.sh | Fetches [IcedTea](https://openjdk.org/projects/icedtea) archives for use in Java builds. Use `icedtea-fetch -h` to view all flags. | `icedtea-fetch  [--help \| -h] <icedtea-fetch flags>` |
+| backports.sh | Automatically merges backports for a given PR URL. Requires that you are authenticated with `gh` (GitHub CLI). Use carefully. | `backports  [--help \| -h] <PR URL>` |
 
 ### Scripts for Repository/Mass Package Maintainers
 
@@ -56,7 +57,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 
 ### Attribution
 - `ldd-dnf`, `changelog`: june@fyralabs.com
-- `format-license`, `getcommit`: jonah@fyralabs.com
+- `format-license`, `getcommit`, `backports`: jonah@fyralabs.com
 - `panda`: jade@fyralabs.com
 - `icedtea-fetch`, `sync-branches.sh`, `sync-branches-ssh.sh`: roachy@fyralabs.com
 - `satm-grepdel.fish`, `satm-rm-stdin.sh`, `terra-subtree-build.sh`: cappy@fyralabs.com
