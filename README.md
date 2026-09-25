@@ -30,16 +30,14 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 
 ### Helpful Specfile Scripts
 
-Each script has its own `-h` flag for usage information.
-
 | Name | Useage | Command |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| changelog | Generates info for a changelog entry based on your git config. | `changelog [--name=NAME] [--email=EMAIL] ["message"]` |
-| format-license | Formats the build output of `%cargo_license_summary_online` and `%tauri_cargo_license_summary` into a proper string for the RPM `License:` tag. | `format-license "<raw license build output>"` |
-| ldd-dnf | Finds libraries that a binary dynamically links to, and gets the name of each package that provides them. | `ldd-dnf <path/to/binary.rpm>` |
-| getcommit | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit <git repo url>` |
-| panda  | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda <anda arguments>` |
-| icedtea-fetch | Fetches [IcedTea](https://openjdk.org/projects/icedtea) archives for use in Java builds. Use `icedtea-fetch -h` to view all flags. | `icedtea-fetch <icedtea-fetch flags>` |
+| changelog | Generates info for a changelog entry based on your git config. | `changelog [--name=NAME] [--email=EMAIL] ["message"] [--help]` |
+| format-license | Formats the build output of `%cargo_license_summary_online` and `%tauri_cargo_license_summary` into a proper string for the RPM `License:` tag. | `format-license "<raw license build output>" [--help]` |
+| ldd-dnf | Finds libraries that a binary dynamically links to, and gets the name of each package that provides them. | `ldd-dnf <path/to/binary.rpm> [--help]` |
+| getcommit | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit <git repo url> [--help]` |
+| panda  | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda <anda arguments> [--help]` |
+| icedtea-fetch | Fetches [IcedTea](https://openjdk.org/projects/icedtea) archives for use in Java builds. Use `icedtea-fetch -h` to view all flags. | `icedtea-fetch <icedtea-fetch flags> [--help]` |
 
 ### Batch Processing Scripts
 
@@ -55,10 +53,12 @@ Each script has its own `-h` flag for usage information.
 ### Plans
 - [ ] Once more scripts get added, a CLI tool that includes all the scripts should be created and packaged.
 - [ ] Add guide for contributing new scripts.
-- [ ] Add attribution for scripts added from the old terra-scripts repo
+- [ ] Add `--help` flags to Batch Processing Scripts
 
 ### Attribution
 - `ldd-dnf`, `changelog`: june@fyralabs.com
 - `format-license`, `getcommit`: jonah@fyralabs.com
 - `panda`: jade@fyralabs.com
-- `icedtea-fetch`: roachy@fyralabs.com
+- `icedtea-fetch`, `sync-branches.sh`, `sync-branches-ssh.sh`: roachy@fyralabs.com
+- `satm-grepdel.fish`, `satm-rm-stdin`, `terra-subtree-build.sh`: cappy@fyralabs.com
+- `terra-mass-rebuild.py`: mado@fyralabs.com
