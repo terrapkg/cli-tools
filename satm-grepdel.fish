@@ -4,6 +4,13 @@
 # usage: satm-grepdel.fish "pattern"
 # set fish_trace 1
 
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "Batch delete all packages matching a certain exact pattern from a set of repos in Subatomic repo manager. Prints a list of packages to be deleted before confirming deletion, pass --no-dry-run to actually perform the deletion, or --dry-run to explicitly run in safe mode."
+    echo "Usage:    satm-grepdel [--help | -h] [--dry-run | --no-dry-run] "<pattern>""
+    exit 0
+end
+
+
 set SATM subatomic-cli
 
 argparse 'dry-run' 'no-dry-run' -- $argv
@@ -12,7 +19,7 @@ argparse 'dry-run' 'no-dry-run' -- $argv
     if set -q _flag_dry_run
         echo "dry run mode on"
         set DRY_RUN 1
-        
+
     else if set -q _flag_no_dry_run
         echo "dry run mode off"
         set DRY_RUN 0

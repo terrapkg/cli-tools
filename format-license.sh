@@ -7,7 +7,7 @@
 # -h flag
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "Formats the build output of %cargo_license_summary_online and %tauri_summary_license_online into a human-readable license expression."
-    echo -e "Usage: format-license \"<raw license build output>\""
+    echo "Usage:    format-license [--help | -h] \"<raw license build output>\""
     exit 0
 fi
 
