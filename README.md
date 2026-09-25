@@ -43,7 +43,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 
 | Name | Usage | Command |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| satm-grepdel.fish | Batch delete all packages matching a certain exact pattern from a set of repos in Subatomic repo manager | `satm-grepdel.fish "<pattern>"` |
+| satm-grepdel.fish | Batch delete all packages matching a certain exact pattern from a set of repos in Subatomic repo manager. Prints a list of packages to be deleted before confirming deletion, confirm by setting `DRY_RUN=0`. | `satm-grepdel.fish "<pattern>"` |
 | satm-rm-stdin.sh | Deletes packages piped in via `stdin` from a single Subatomic repo. An alternative to `satm-grepdel.fish`. | `cat packages.txt \| satm-rm-stdin.sh terra40` where `packages.txt` is a list of packages to delete `subatomic-cli pkg list terra40 \| grep "pattern" \| grep "pattern2" \| satm-rm-stdin.sh terra45` where the grep commands are used to filter the list of packages to delete. |
 | sync-branches.sh | Creates a branch sync pull request for when automatic bumps are out of sync across branches, or multiple backports are failing, by cloning `terrapkg/packages` over HTTPS, for a given release branch. | `sync-branches.sh <username> <branch> [-x]` |
 | sync-branches-ssh.sh | Same as `sync-branches.sh`, but clones and pushes over SSH instead of HTTPS. | `sync-branches-ssh.sh <username> <branch> [-x]` |
