@@ -32,12 +32,12 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 
 | Name | Usage | Command |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| changelog | Generates info for a changelog entry based on your git config by default. You can manually configure it with `--name=""` and `--email=""`. | `changelog [--name=NAME] [--email=EMAIL] ["message"] [--help]` |
-| format-license | Formats the build output of `%cargo_license_summary_online` and `%tauri_cargo_license_summary` into a proper string for the RPM `License:` tag. | `format-license "<raw license build output>" [--help]` |
-| ldd-dnf | Finds libraries that a binary dynamically links to, and gets the name of each package that provides them. | `ldd-dnf <path/to/binary.rpm> [--help]` |
-| getcommit | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit <git repo url> [--help]` |
-| panda  | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda <anda arguments> [--help]` |
-| icedtea-fetch | Fetches [IcedTea](https://openjdk.org/projects/icedtea) archives for use in Java builds. Use `icedtea-fetch -h` to view all flags. | `icedtea-fetch <icedtea-fetch flags> [--help]` |
+| changelog.sh | Generates info for a changelog entry based on your git config by default. You can manually configure it with `--name=""` and `--email=""`. | `changelog [--name=NAME] [--email=EMAIL] ["message"] [--help]` |
+| format-license.sh | Formats the build output of `%cargo_license_summary_online` and `%tauri_cargo_license_summary` into a proper string for the RPM `License:` tag. | `format-license "<raw license build output>" [--help]` |
+| ldd-dnf.sh | Finds libraries that a binary dynamically links to, and gets the name of each package that provides them. | `ldd-dnf <path/to/binary.rpm> [--help]` |
+| getcommit.sh | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit <git repo url> [--help]` |
+| panda.sh | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda <anda arguments> [--help]` |
+| icedtea-fetch.sh | Fetches [IcedTea](https://openjdk.org/projects/icedtea) archives for use in Java builds. Use `icedtea-fetch -h` to view all flags. | `icedtea-fetch <icedtea-fetch flags> [--help]` |
 
 ### Scripts for Repository/Mass Package Maintainers
 
