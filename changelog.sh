@@ -5,7 +5,7 @@
 # Config functionality by jonah@fyralabs.com
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-    echo "Generates info for a changelog entry based on your git config by default. You can manually configure it with flags."
+    echo "Generates a changelog entry based on your git config by default. You can manually configure it with flags."
     echo "Usage:    changelog [--help | -h] [--name=NAME] [--email=EMAIL] ["message"]"
     echo "Default name/email are based on your git config."
     exit 0
