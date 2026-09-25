@@ -28,7 +28,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 
 ## How to Use
 
-### Helpful Specfile Scripts
+### Scripts for Packagers/Package Maintainers
 
 | Name | Useage | Command |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
