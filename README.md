@@ -30,7 +30,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 
 ### Scripts for Packagers/Package Maintainers
 
-| Name | Useage | Command |
+| Name | Usage | Command |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
 | changelog | Generates info for a changelog entry based on your git config. | `changelog [--name=NAME] [--email=EMAIL] ["message"] [--help]` |
 | format-license | Formats the build output of `%cargo_license_summary_online` and `%tauri_cargo_license_summary` into a proper string for the RPM `License:` tag. | `format-license "<raw license build output>" [--help]` |
@@ -41,7 +41,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 
 ### Scripts for Repository/Mass Package Maintainers
 
-| Name | Useage | Command |
+| Name | Usage | Command |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
 | satm-grepdel.fish | Batch delete all packages matching a certain exact pattern from a set of repos in Subatomic repo manager | `satm-grepdel.fish "<pattern>"` |
 | satm-rm-stdin.sh | Deletes packages piped in via `stdin` from a single Subatomic repo. An alternative to `satm-grepdel.fish`. | `cat packages.txt \| satm-rm-stdin.sh terra40` where `packages.txt` is a list of packages to delete `subatomic-cli pkg list terra40 \| grep "pattern" \| grep "pattern2" \| satm-rm-stdin.sh terra45` where the grep commands are used to filter the list of packages to delete. |
