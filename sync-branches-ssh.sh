@@ -7,6 +7,13 @@
 
 # WARNING: This version of the script clones over SSH.
 
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "Creates a branch sync pull request for when automatic bumps are out of sync across branches, or multiple backports are failing, by cloning terrapkg/packages over SSH, for a given release branch."
+    echo "Usage:    sync-branches-ssh [--help | -h] <username> <branch> [-x]"
+    exit 0
+fi
+
+
 if [[ "$3" == "-x" ]]; then
   set -x
 fi

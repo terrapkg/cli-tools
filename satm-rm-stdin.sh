@@ -11,6 +11,13 @@
 # subatomic-cli pkg list terra40 | grep "pattern" | grep "pattern2" | satm-rm-stdin.sh terra40
 # where the grep commands are used to filter the list of packages to delete
 
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "Deletes packages piped in via stdin from a single Subatomic repo. An alternative to satm-grepdel.fish."
+    echo "Usage:    cat packages-to-delete.txt | satm-rm-stdin <repo>"
+    echo "          subatomic-cli pkg list <repo> | grep \"pattern-to-delete\" | satm-rm-stdin <repo>"
+    echo "          satm-rm-stdin [--help | -h]"
+    exit 0
+fi
 
 SATM=subatomic-cli
 

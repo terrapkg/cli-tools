@@ -7,7 +7,7 @@
 # -h flag
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "Finds libraries that a package dynamically links to, automatically getting the name of each package that provides them."
-    echo "Usage: ldd-dnf <path/to/binary.rpm>"
+    echo "Usage:    ldd-dnf [--help | -h] <path/to/binary.rpm>"
     exit 0
 fi
 

@@ -25,9 +25,9 @@ Notes:
   you can mix and match mock configs and container versions, but we suggest using the Rawhide container unless you run into trouble.
   --help passes through to anda directly, use -h to see this
   god bless the container cirucs
-  
+
 built with love in minneapolis (by catgirls! :3)
-₍^. .^₎⟆ 
+₍^. .^₎⟆
 EOF
 }
 

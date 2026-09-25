@@ -44,7 +44,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 | Name | Usage | Command |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
 | satm-grepdel.fish | Batch delete all packages matching a certain exact pattern from a set of repos in Subatomic repo manager. Prints a list of packages to be deleted before confirming deletion, pass `--no-dry-run` to actually perform the deletion, or `--dry-run` to explicitly run in safe mode. | `satm-grepdel [--dry-run \| --no-dry-run] "<pattern>"` |
-| satm-rm-stdin.sh | Deletes packages piped in via `stdin` from a single Subatomic repo. An alternative to `satm-grepdel.fish`. | `cat packages-to-delete.txt \| satm-rm-stdin terra45` OR `subatomic-cli pkg list terra40 \| grep "pattern-to-delete" \| satm-rm-stdin terra45` |
+| satm-rm-stdin.sh | Deletes packages piped in via `stdin` from a single Subatomic repo. An alternative to `satm-grepdel.fish`. | `cat packages-to-delete.txt \| satm-rm-stdin <repo>` OR `subatomic-cli pkg list <repo> \| grep "pattern-to-delete" \| satm-rm-stdin <repo>` |
 | sync-branches.sh | Creates a branch sync pull request for when automatic bumps are out of sync across branches, or multiple backports are failing, by cloning `terrapkg/packages` over HTTPS, for a given release branch. | `sync-branches <username> <branch> [-x]` |
 | sync-branches-ssh.sh | Same as `sync-branches.sh`, but clones and pushes over SSH instead of HTTPS. | `sync-branches-ssh <username> <branch> [-x]` |
 | terra-subtree-build.sh | Builds every Anda project (package) in the current monorepo whose name matches a given pattern. Requires the `CONFIG` env var to be set. | `terra-subtree-build $0 <pattern>` |
@@ -53,7 +53,6 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 ### Plans
 - [ ] Once more scripts get added, a CLI tool that includes all the scripts should be created and packaged.
 - [ ] Add guide for contributing new scripts.
-- [ ] Add `--help` flags to Batch Processing Scripts
 
 ### Attribution
 - `ldd-dnf`, `changelog`: june@fyralabs.com

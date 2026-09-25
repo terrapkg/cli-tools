@@ -5,6 +5,13 @@
 
 # NOTE: Requires ripgrep
 
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "Creates a branch sync pull request for when automatic bumps are out of sync across branches, or multiple backports are failing, by cloning terrapkg/packages over HTTPS, for a given release branch."
+    echo "Usage:    sync-branches [--help | -h] <username> <branch> [-x]"
+    exit 0
+fi
+
+
 if [[ "$3" == "-x" ]]; then
   set -x
 fi
