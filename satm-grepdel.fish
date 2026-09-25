@@ -8,7 +8,9 @@ set SATM subatomic-cli
 
 set FILTER $argv[1]
 
-set DRY_RUN 1
+if not set -q DRY_RUN
+    set DRY_RUN 1
+end
 
 # Array of repos
 
