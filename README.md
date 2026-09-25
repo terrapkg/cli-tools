@@ -60,5 +60,14 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 - `format-license`, `getcommit`: jonah@fyralabs.com
 - `panda`: jade@fyralabs.com
 - `icedtea-fetch`, `sync-branches.sh`, `sync-branches-ssh.sh`: roachy@fyralabs.com
-- `satm-grepdel.fish`, `satm-rm-stdin`, `terra-subtree-build.sh`: cappy@fyralabs.com
+- `satm-grepdel.fish`, `satm-rm-stdin.sh`, `terra-subtree-build.sh`: cappy@fyralabs.com
 - `terra-mass-rebuild.py`: mado@fyralabs.com
+
+The following scripts were originally from the [Terra Scripts](https://github.com/terrapkg/terra-scripts) repository:
+
+- `sync-branches.sh`
+- `sync-branches-ssh.sh`
+- `satm-grepdel.fish`
+- `satm-rm-stdin`
+- `terra-subtree-build.sh`
+- `terra-mass-rebuild.py`
