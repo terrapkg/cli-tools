@@ -6,11 +6,23 @@
 
 set SATM subatomic-cli
 
-set FILTER $argv[1]
+argparse 'dry-run' 'no-dry-run' -- $argv
+    or exit 1
 
-if not set -q DRY_RUN
-    set DRY_RUN 1
-end
+    if set -q _flag_dry_run
+        echo "dry run mode on"
+        set DRY_RUN 1
+        
+    else if set -q _flag_no_dry_run
+        echo "dry run mode off"
+        set DRY_RUN 0
+
+    else
+        echo "No mode specified, defaulting to safe dry-run"
+        set DRY_RUN 1
+    end
+
+set FILTER $argv[1]
 
 # Array of repos
 
