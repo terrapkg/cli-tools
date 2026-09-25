@@ -8,7 +8,7 @@ A collection of helpful scripts for contributing to (and maintaining) [Terra](ht
 sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 
 # Then install this package from Terra
-dnf install terra-scripts
+dnf install terra-cli-tools
 ```
 <details>
 <summary>How to install individual scripts</summary>
