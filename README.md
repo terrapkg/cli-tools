@@ -63,7 +63,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 - `satm-grepdel.fish`, `satm-rm-stdin.sh`, `terra-subtree-build.sh`: cappy@fyralabs.com
 - `terra-mass-rebuild.py`: mado@fyralabs.com
 
-The following scripts were originally from the [Terra Scripts](https://github.com/terrapkg/terra-scripts) repository:
+The following scripts were originally from the [terra-scripts](https://github.com/terrapkg/terra-scripts) repository:
 
 - `sync-branches.sh`
 - `sync-branches-ssh.sh`
