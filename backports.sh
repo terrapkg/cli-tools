@@ -1,22 +1,29 @@
 #!/usr/bin/bash
 
 # Automatically merges backports (if found) for a given PR URL.
-# Usage:    backports [--help | -h] <pr-url>
+# Usage:    backports [--help | -h] [-y] <pr-url>
 # NOTE:     Requires gh (authenticated) and jq
 
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-    echo "Automatically merges backports for a given PR URL."
-    echo "Usage:    backports [--help | -h] <pr-url>"
-    echo "NOTE:     Requires gh (authenticated) and jq"
-    exit 0
-fi
+yes=0
+pr_url=""
+for arg in "$@"; do
+    case "$arg" in
+        -h|--help)
+            echo "Automatically merges backports for a given PR URL."
+            echo "Usage:    backports [--help | -h] [-y] <pr-url>"
+            echo "NOTE:     Requires gh (authenticated) and jq"
+            exit 0
+            ;;
+        -y) yes=1 ;;
+        *) pr_url="$arg" ;;
+    esac
+done
 
-if [[ -z "$1" ]]; then
-    printf "Usage:\tbackports <pr_url>\n"
+if [[ -z "$pr_url" ]]; then
+    printf "Usage:\tbackports [-y] <pr_url>\n"
     exit 1
 fi
 
-pr_url="$1"
 user="raboneko"
 
 if [[ ! "$pr_url" =~ github\.com/([^/]+)/([^/]+)/pull/([0-9]+) ]]; then
@@ -27,11 +34,6 @@ fi
 owner="${BASH_REMATCH[1]}"
 repo="${BASH_REMATCH[2]}"
 pr="${BASH_REMATCH[3]}"
-
-pr_info=$(gh api "repos/$owner/$repo/pulls/$pr")
-title=$(echo "$pr_info" | jq -r .title)
-author=$(echo "$pr_info" | jq -r .user.login)
-created=$(date -d "$(echo "$pr_info" | jq -r .created_at)" +"%b %d, %Y")
 
 comments=$(gh api "repos/$owner/$repo/issues/$pr/comments" --paginate)
 
@@ -55,13 +57,20 @@ while IFS= read -r line; do
     branch_of["${BASH_REMATCH[2]}"]="${BASH_REMATCH[1]}"
 done <<< "$bodies"
 
-echo "$title"
-echo "$author - $created"
-echo ""
+if [[ "$yes" != 1 ]]; then
+    pr_info=$(gh api "repos/$owner/$repo/pulls/$pr")
+    title=$(echo "$pr_info" | jq -r .title)
+    author=$(echo "$pr_info" | jq -r .user.login)
+    created=$(date -d "$(echo "$pr_info" | jq -r .created_at)" +"%b %d, %Y")
 
-read -rp "Are you sure you want to merge backports for this PR? [Y/n] " ans
-[[ "${ans:-Y}" =~ ^[Yy] ]] || { echo "Aborted."; exit 0; }
-echo
+    echo "$title"
+    echo "$author - $created"
+    echo ""
+
+    read -rp "Are you sure you want to merge backports for this PR? [Y/n] " ans
+    [[ "${ans:-Y}" =~ ^[Yy] ]] || { echo "Aborted."; exit 0; }
+    echo
+fi
 
 while read -r link; do
     [[ "$link" =~ github\.com/([^/]+)/([^/]+)/pull/([0-9]+) ]] || continue
