@@ -40,7 +40,15 @@ path=${1%/}
 template="$TEMPLATES/${buildsys,,}.spec"
 [[ -f $template ]] || { echo "Error: '$buildsys' does not have a template yet. see templates -h for a list of supported buildsystems" >&2; exit 1; }
 
+pkgname=${path##*/}
+
 mkdir -p "$path"
 touch "$path/update.rhai"
-cp "$TEMPLATES/anda.hcl" "$path/anda.hcl"
-cp "$template" "$path/${path##*/}.spec"
+cp "$template" "$path/$pkgname.spec"
+cat > "$path/anda.hcl" <<EOF
+project pkg {
+  rpm {
+    spec = "$pkgname.spec"
+  }
+}
+EOF
