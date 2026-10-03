@@ -50,6 +50,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 | sync-branches-ssh.sh | Same as `sync-branches.sh`, but clones and pushes over SSH instead of HTTPS. | `sync-branches-ssh [--help \| -h] <username> <branch> [-x]` |
 | terra-subtree-build.sh | Builds every Anda project (package) in the current monorepo whose name matches a given pattern. Requires the `CONFIG` env var to be set. | `terra-subtree-build [--help \| -h] $0 <pattern>` |
 | terra_mass_rebuild.py | Prints a formatted list of every package to be pasted into the JSON build Terra workflow, for mass package rebuilds when making new branches/rebuilding frawhide. | `python3 terra_mass_rebuild.py [--help \| -h]` |
+| check-fedora-overlaps.py | Lists exact RPM name overlaps with Fedora Rawhide. Uses DNF5 (`dnf`) and `rpmspec` when available; outputs review candidates only and removes nothing. Versions, contents, and patches are not compared. | `python3 check-fedora-overlaps.py [--help \| -h] [--spec-root ../packages/anda] [--arch <arch>]` |
 
 ### Plans
 - [ ] Once more scripts get added, a CLI tool that includes all the scripts should be created and packaged.
@@ -62,6 +63,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 - `icedtea-fetch.sh`, `sync-branches.sh`, `sync-branches-ssh.sh`: roachy@fyralabs.com
 - `satm-grepdel.fish`, `satm-rm-stdin.sh`, `terra-subtree-build.sh`: cappy@fyralabs.com
 - `terra-mass-rebuild.py`: mado@fyralabs.com
+- `check-fedora-overlaps.py`: cypress@fyralabs.com
 
 The following scripts were originally from the [terra-scripts](https://github.com/terrapkg/terra-scripts) repository:
 
