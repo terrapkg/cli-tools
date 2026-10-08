@@ -9,16 +9,28 @@ License:
 URL:
 Source0:
 Packager:
-BuildRequires:
+BuildRequires:  make
+BuildRequires:	gcc
 Requires:
 
 %description
 
 %prep
+%autosetup
+
+%conf
+%configure
 
 %build
+%make_build
 
 %install
+%make_install
+
+%check
+%make_build check
+# Depends on the project, if there is a check/test target
+%make_build test
 
 %files
 %license

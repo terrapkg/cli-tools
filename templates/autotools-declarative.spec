@@ -9,16 +9,12 @@ License:
 URL:
 Source0:
 Packager:
-BuildRequires:
+BuildRequires:  make
+BuildRequires:	gcc
 Requires:
+BuildSystem:    autotools
 
 %description
-
-%prep
-
-%build
-
-%install
 
 %files
 %license

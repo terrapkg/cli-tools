@@ -24,6 +24,15 @@ Options:
 
 Supported Build Systems:
 generic
+autotools
+autotools-declarative
+cmake
+cmake-declarative
+meson
+meson-declarative
+OCaml
+OCaml-declarative
+# Planned: electron/webapp, tauri, ada, R, D, nim, assembly(lol), python (binary and library), rust (binary and library?), more.
 EOF
 }
 
