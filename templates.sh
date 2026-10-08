@@ -33,7 +33,7 @@ meson-declarative
 OCaml
 OCaml-declarative
 # Planned: electron/webapp, tauri, ada, R, D, nim, assembly(lol), python (binary and library), rust (binary and library?), more.
-# haskell: Tell you to use `cabal rpm`, or wrap `cabal rpm` and add a packager and changelog
+# haskell: Tell you to use `cabal rpm`, or wrap `cabal rpm` and add a packager and changelog (see Terra haskell packaging guideliens)
 EOF
 }
 
