@@ -58,7 +58,8 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 
 ### Attribution
 - `ldd-dnf.sh`, `changelog.sh`: june@fyralabs.com
-- `format-license.sh`, `getcommit.sh`, `backports.sh`, `templates.sh`: jonah@fyralabs.com
+- `format-license.sh`, `getcommit.sh`, `backports.sh`: jonah@fyralabs.com
+- `templates.sh`: jonah@fyralabs.com and owen@fyralabs.com
 - `panda.sh`: jade@fyralabs.com
 - `icedtea-fetch.sh`, `sync-branches.sh`, `sync-branches-ssh.sh`: roachy@fyralabs.com
 - `satm-grepdel.fish`, `satm-rm-stdin.sh`, `terra-subtree-build.sh`: cappy@fyralabs.com
