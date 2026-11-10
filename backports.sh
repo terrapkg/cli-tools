@@ -4,6 +4,7 @@
 # Usage:    backports [--help | -h] [-y] [-w] [--exclude-branch=<branch>] <pr-url-1> [pr-url-2] ...
 #           backports [-y] [-w] -A --user=<user> --time=<duration>
 # NOTE:     Requires gh (authenticated) and jq
+#           Set MAX_JOBS=N to control parallelism (default: 4)
 
 bot="raboneko"
 poll=30
@@ -15,6 +16,9 @@ window=""
 search_repo="terrapkg/packages"
 excludes=()
 urls=()
+
+max_jobs="${MAX_JOBS:-4}"
+(( max_jobs < 1 )) && max_jobs=1
 
 for arg in "$@"; do
     case "$arg" in
@@ -30,6 +34,8 @@ for arg in "$@"; do
             echo "  --time=<duration>          How far back to look, e.g. 30m, 2h, 1d (with -A)"
             echo "  --repo=<owner/repo>        Repo to look up PRs in (default: $search_repo)"
             echo "  --exclude-branch=<branch>  Skip a backport, e.g. 45, f45, el10 (comma-separated or repeated)"
+            echo "Environment:"
+            echo "  MAX_JOBS=N                 Max concurrent gh calls (default: 4)"
             echo "NOTE:     Requires gh (authenticated) and jq"
             exit 0
             ;;
@@ -129,67 +135,156 @@ await_backports() {
     done
 }
 
+# ===== Parallelism helpers =====
+
+throttle() {
+    while (( $(jobs -rp | wc -l) >= max_jobs )); do
+        sleep 0.05
+    done
+}
+
+# merge_links: fans out one worker per link, buffers each worker's output to a
+# temp file so the final order matches the input regardless of which link
+# finishes first. branch_of is read-only here, so subshells can share it.
 merge_links() {
-    local link o r n branch tag state a m
+    local links="$1"
+    [[ -z "$links" ]] && return 0
 
-    while read -r link; do
-        [[ "$link" =~ github\.com/([^/]+)/([^/]+)/pull/([0-9]+) ]] || continue
-        o="${BASH_REMATCH[1]}"; r="${BASH_REMATCH[2]}"; n="${BASH_REMATCH[3]}"
-        branch="${branch_of[$link]:-}"
-        tag=""; [[ -n "$branch" ]] && tag="[$branch] "
+    local sub i n
+    local -a link_arr=() lpids=()
+    mapfile -t link_arr <<< "$links"
+    n=${#link_arr[@]}
+    sub=$(mktemp -d)
 
-        if is_excluded "$branch"; then
-            echo "${tag}${link} -> skipped (excluded)"
-            continue
-        fi
+    for i in "${!link_arr[@]}"; do
+        (
+            trap - EXIT
+            link="${link_arr[i]}"
+            [[ "$link" =~ github\.com/([^/]+)/([^/]+)/pull/([0-9]+) ]] || exit 0
+            o="${BASH_REMATCH[1]}"; r="${BASH_REMATCH[2]}"; pn="${BASH_REMATCH[3]}"
+            branch="${branch_of[$link]:-}"
+            tag=""; [[ -n "$branch" ]] && tag="[$branch] "
 
-        state=$(gh pr view "$n" --repo "$o/$r" --json state --jq .state 2>/dev/null)
-        if [[ "$state" == "MERGED" ]]; then
-            echo "${tag}${link} -> already merged"
-            continue
-        fi
+            if is_excluded "$branch"; then
+                echo "${tag}${link} -> skipped (excluded)"
+                exit 0
+            fi
 
-        gh pr review "$n" --repo "$o/$r" --approve >/dev/null 2>&1 && a="approved" || a="approve failed"
-        gh pr merge "$n" --repo "$o/$r" --squash --auto >/dev/null 2>&1 && m="squash-merge enabled" || m="merge failed"
+            state=$(gh pr view "$pn" --repo "$o/$r" --json state --jq .state 2>/dev/null)
+            if [[ "$state" == "MERGED" ]]; then
+                echo "${tag}${link} -> already merged"
+                exit 0
+            fi
 
-        echo "${tag}${link} -> $m, $a"
-    done <<< "$1"
+            gh pr review "$pn" --repo "$o/$r" --approve >/dev/null 2>&1 && a="approved" || a="approve failed"
+            gh pr merge "$pn" --repo "$o/$r" --squash --auto >/dev/null 2>&1 && m="squash-merge enabled" || m="merge failed"
+            echo "${tag}${link} -> $m, $a"
+        ) > "$sub/$i" 2>&1 &
+        lpids+=($!)
+        throttle
+    done
+
+    for pid in "${lpids[@]}"; do wait "$pid" 2>/dev/null || true; done
+    for i in "${!link_arr[@]}"; do [[ -f "$sub/$i" ]] && cat "$sub/$i"; done
+    rm -rf "$sub"
 }
 
 rc=0
 waited=0
 
+# ===== Non-interactive (-y) path: parallel per PR =====
+
 if [[ "$yes" == 1 ]]; then
+    tmpdir=$(mktemp -d)
+    trap 'rm -rf "$tmpdir"' EXIT
+
+    wpids=()
+    for i in "${!urls[@]}"; do
+        (
+            trap - EXIT
+            url="${urls[i]}"
+            if [[ "$wait_mode" == 1 ]]; then await_backports "$url"; else fetch_backports "$url"; fi
+            s=$?
+            if [[ "$s" == 2 ]]; then
+                echo "Backports haven't been created yet for $owner/$repo#$pr."
+            elif [[ "$s" == 0 && "$waited" != 1 && ${#urls[@]} -gt 1 ]]; then
+                echo "$owner/$repo#$pr"
+            fi
+            [[ "$s" == 0 ]] || exit 1
+            merge_links "$links"
+        ) > "$tmpdir/out.$i" 2>&1 &
+        wpids+=($!)
+        throttle
+    done
+
+    for pid in "${wpids[@]}"; do
+        wait "$pid" 2>/dev/null || rc=1
+    done
+
     sep=0
-    for url in "${urls[@]}"; do
+    for i in "${!urls[@]}"; do
         [[ "$sep" == 1 ]] && echo
         sep=1
-        if [[ "$wait_mode" == 1 ]]; then await_backports "$url"; else fetch_backports "$url"; fi
-        s=$?
-        if [[ "$s" == 2 ]]; then
-            echo "Backports haven't been created yet for $owner/$repo#$pr."
-        elif [[ "$s" == 0 && "$waited" != 1 && ${#urls[@]} -gt 1 ]]; then
-            echo "$owner/$repo#$pr"
-        fi
-        [[ "$s" == 0 ]] || { rc=1; continue; }
-        merge_links "$links"
+        cat "$tmpdir/out.$i"
     done
     exit "$rc"
 fi
 
+# ===== Interactive path =====
+
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
+
+# --- Parallel fetch phase ---
+wpids=()
+for i in "${!urls[@]}"; do
+    (
+        trap - EXIT
+        url="${urls[i]}"
+        fetch_backports "$url"; s=$?
+        echo "$s" > "$tmpdir/s.$i"
+        [[ "$s" == 1 ]] && exit 0
+
+        if [[ "$s" == 0 ]]; then
+            printf '%s' "$links" > "$tmpdir/links.$i"
+            : > "$tmpdir/branches.$i"
+            for k in "${!branch_of[@]}"; do
+                printf '%s\t%s\n' "$k" "${branch_of[k]}" >> "$tmpdir/branches.$i"
+            done
+        else
+            : > "$tmpdir/links.$i"
+            : > "$tmpdir/branches.$i"
+        fi
+
+        echo "$owner/$repo#$pr" > "$tmpdir/id.$i"
+        if ! gh api "repos/$owner/$repo/pulls/$pr" > "$tmpdir/pr.$i" 2>/dev/null; then
+            echo "Error: couldn't fetch $owner/$repo#$pr (check the URL and your gh login)"
+            echo 1 > "$tmpdir/s.$i"
+        fi
+    ) > "$tmpdir/log.$i" 2>&1 &
+    wpids+=($!)
+    throttle
+done
+for pid in "${wpids[@]}"; do wait "$pid" 2>/dev/null || true; done
+
+# --- Aggregate worker results ---
 ids=(); pr_urls=(); titles=(); metas=(); groups=(); has=()
-for url in "${urls[@]}"; do
-    fetch_backports "$url"; s=$?
-    [[ "$s" == 1 ]] && { rc=1; continue; }
-    pr_info=$(gh api "repos/$owner/$repo/pulls/$pr" 2>/dev/null) || {
-        echo "Error: couldn't fetch $owner/$repo#$pr (check the URL and your gh login)"
-        rc=1; continue
-    }
-    ids+=("$owner/$repo#$pr")
-    pr_urls+=("$url")
-    titles+=("$(echo "$pr_info" | jq -r .title)")
-    metas+=("$(echo "$pr_info" | jq -r .user.login) - $(date -d "$(echo "$pr_info" | jq -r .created_at)" +"%b %d, %Y")")
-    groups+=("$links")
+rc=0
+for i in "${!urls[@]}"; do
+    s=$(cat "$tmpdir/s.$i" 2>/dev/null || echo 1)
+    if [[ "$s" == 1 ]]; then
+        [[ -f "$tmpdir/log.$i" ]] && cat "$tmpdir/log.$i"
+        rc=1
+        continue
+    fi
+    while IFS=$'\t' read -r k v; do
+        [[ -n "$k" ]] && branch_of["$k"]="$v"
+    done < "$tmpdir/branches.$i"
+    ids+=("$(cat "$tmpdir/id.$i")")
+    pr_urls+=("${urls[i]}")
+    titles+=("$(jq -r .title "$tmpdir/pr.$i")")
+    metas+=("$(jq -r .user.login "$tmpdir/pr.$i") - $(date -d "$(jq -r .created_at "$tmpdir/pr.$i")" +"%b %d, %Y")")
+    groups+=("$(cat "$tmpdir/links.$i" 2>/dev/null)")
     [[ "$s" == 0 ]] && has+=(1) || has+=(0)
 done
 
@@ -229,21 +324,47 @@ done
 [[ ${#ready[@]} -eq 0 && ${#waiters[@]} -eq 0 ]] && exit "$rc"
 echo
 
+# --- Parallel merge phase for already-found PRs ---
+wpids=()
+for i in "${ready[@]}"; do
+    (
+        trap - EXIT
+        merge_links "${groups[i]}"
+    ) > "$tmpdir/ready.$i" 2>&1 &
+    wpids+=($!)
+    throttle
+done
+for pid in "${wpids[@]}"; do wait "$pid" 2>/dev/null || true; done
+
 sep=0
 for i in "${ready[@]}"; do
     [[ "$sep" == 1 ]] && echo
     sep=1
     [[ "$total" -gt 1 ]] && echo "${ids[i]}"
-    merge_links "${groups[i]}"
+    cat "$tmpdir/ready.$i"
 done
 
+# --- Parallel await-then-merge phase for missing backports ---
+wpids=()
+for i in "${waiters[@]}"; do
+    (
+        trap - EXIT
+        if await_backports "${pr_urls[i]}"; then
+            [[ "$waited" != 1 && "$total" -gt 1 ]] && echo "${ids[i]}"
+            merge_links "$links"
+        else
+            exit 1
+        fi
+    ) > "$tmpdir/waiter.$i" 2>&1 &
+    wpids+=($!)
+    throttle
+done
+for pid in "${wpids[@]}"; do wait "$pid" 2>/dev/null || rc=1; done
+
+sep=0
 for i in "${waiters[@]}"; do
     [[ "$sep" == 1 ]] && echo
     sep=1
-    await_backports "${pr_urls[i]}"
-    s=$?
-    [[ "$s" == 0 ]] || { rc=1; continue; }
-    [[ "$waited" != 1 && "$total" -gt 1 ]] && echo "${ids[i]}"
-    merge_links "$links"
+    cat "$tmpdir/waiter.$i"
 done
 exit "$rc"
