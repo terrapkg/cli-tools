@@ -64,7 +64,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 - `icedtea-fetch.sh`, `sync-branches.sh`, `sync-branches-ssh.sh`: roachy@fyralabs.com
 - `satm-grepdel.fish`, `satm-rm-stdin.sh`, `terra-subtree-build.sh`: cappy@fyralabs.com
 - `terra-mass-rebuild.py`: mado@fyralabs.com
-- `check-fedora-overlaps.py`: cypress@fyralabs.com
+- `check-fedora-overlaps.py`, `getsubmodules.sh`: cypress@fyralabs.com
 
 The following scripts are originally from the [terra-scripts](https://github.com/terrapkg/terra-scripts) repository:
 
