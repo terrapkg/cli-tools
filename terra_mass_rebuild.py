@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import math, json, os, sys
 
 if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
