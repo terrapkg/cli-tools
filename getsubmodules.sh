@@ -5,24 +5,38 @@
 
 set -euo pipefail
 
-usage="Usage:    getsubmodules [--help | -h] [--start <source number>] <git repo url> [ref]"
+usage="Usage:    getsubmodules [--help | -h] [--start <source number>] [--no-licenses] <git repo url> [ref]"
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     echo "Lists a git repository's submodules at a ref (default: HEAD) and prints the %global, Source and %submodule_setup lines for a spec, plus an update.rhai line to keep them updated."
     echo "$usage"
     echo "    --start <n>    number of the first submodule Source (default: 1)"
+    echo "    --no-licenses  don't check out the submodules to print their licenses with tavro, which is slow for big ones"
     exit 0
 fi
 
 start=1
-if [[ "${1:-}" == "--start" ]]; then
-    if [[ ! "${2:-}" =~ ^[0-9]+$ ]]; then
-        echo "Error: --start needs a source number" >&2
-        exit 1
-    fi
-    start="$2"
-    shift 2
-fi
+licenses=true
+while [[ "${1:-}" == --* ]]; do
+    case "$1" in
+        --start)
+            if [[ ! "${2:-}" =~ ^[0-9]+$ ]]; then
+                echo "Error: --start needs a source number" >&2
+                exit 1
+            fi
+            start="$2"
+            shift 2
+            ;;
+        --no-licenses)
+            licenses=false
+            shift
+            ;;
+        *)
+            echo "$usage" >&2
+            exit 1
+            ;;
+    esac
+done
 
 if [[ -z "${1:-}" ]]; then
     echo "$usage" >&2
@@ -134,6 +148,24 @@ echo
 echo "%prep"
 printf '%s\n' "${setups[@]}"
 echo
+
+if $licenses && ! command -v tavro > /dev/null; then
+    echo "Warning: tavro isn't installed, so the submodule licenses are left out" >&2
+    licenses=false
+fi
+
+if $licenses; then
+    git -C "$tmpdir" checkout -q FETCH_HEAD
+    if ! GIT_TERMINAL_PROMPT=0 git -C "$tmpdir" submodule update -q --init --recursive --depth 1; then
+        echo "Warning: some submodules couldn't be checked out, so their licenses are missing" >&2
+    fi
+    echo "# submodule licenses, from tavro"
+    echo "# the submodules ship as Sources, so their licenses cover the source RPM too."
+    echo "# if some submodules aren't built into the binary, make this SourceLicense: and list only the built ones in License:"
+    tavro --submodules "$tmpdir" | sed 's/^/# /'
+    echo "# License: <project license> AND $(tavro --submodules --preamble "$tmpdir" 2> /dev/null)"
+    echo
+fi
 
 repo="${url%.git}"
 case "$repo" in
