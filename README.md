@@ -37,6 +37,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 | ldd-dnf.sh | Finds libraries that a binary dynamically links to, and gets the name of each package that provides them. | `ldd-dnf  [--help \| -h] <path/to/binary.rpm>` |
 | getcommit.sh | Fetches and formats the latest commit hash and date for a given git repository for when packaging nightly packages. | `getcommit  [--help \| -h] <git repo url>` |
 | panda.sh | Runs Anda builds in a container. Just pass Anda arguments after Panda. Switch container branch with `-b fxx` | `panda  [--help \| -h] <anda arguments>` |
+| cabalfreeze.sh | Generates the `cabal.project.freeze` for a Haskell spec that uses Terra's cabal macros, by running the spec's `%prep` with rpmbuild. Saves it next to the spec. Needs `cabal-install`, `ghc9.12`, `jq`, `rpmdevtools`, and `anda-srpm-macros`. | `cabalfreeze [--help \| -h] [--index-state <timestamp \| HEAD>] [path/to/package.spec]` |
 | icedtea-fetch.sh | Fetches [IcedTea](https://openjdk.org/projects/icedtea) archives for use in Java builds. Use `icedtea-fetch -h` to view all flags. | `icedtea-fetch  [--help \| -h] <icedtea-fetch flags>` |
 
 ### Scripts for Repository/Mass Package Maintainers
@@ -63,7 +64,7 @@ sudo mv </path/to/script_filename> /usr/local/bin/ && chmod -x /usr/local/bin/<s
 - `icedtea-fetch.sh`, `sync-branches.sh`, `sync-branches-ssh.sh`: roachy@fyralabs.com
 - `satm-grepdel.fish`, `satm-rm-stdin.sh`, `terra-subtree-build.sh`: cappy@fyralabs.com
 - `terra-mass-rebuild.py`: mado@fyralabs.com
-- `check-fedora-overlaps.py`: cypress@fyralabs.com
+- `check-fedora-overlaps.py`, `cabalfreeze.sh`: cypress@fyralabs.com
 
 The following scripts are originally from the [terra-scripts](https://github.com/terrapkg/terra-scripts) repository:
 
